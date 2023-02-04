@@ -1,6 +1,8 @@
 package Exercise;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 class Browser {
 //	String br[];
@@ -34,30 +36,39 @@ class Browser {
 public class BrowserDemo {
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
-		String arr[] = new String[20];
-		String arr1[] = new String[20];
-		String arr2[] = new String[20];
-		System.out.println("Enter Url");
-		for (int i = 0; i < 5; ++i) {
-			arr[i] = sc.nextLine();
-
-		}
+		
+		
+		int n;
+		ArrayList<String> list = new ArrayList<String>();
+		
+        System.out.println("Enter URLs:");
+           String st = sc.nextLine();
+            
+            
+            list.add(st+" ");
+            
+        
+        n=list.size();
+		  String arr[]=new String[n];
+		  String arr1[]=new String[n];
+		  String arr2[]=new String[n];
+		  for (int i = 0; i <list.size(); i++)
+	            arr[i] = list.get(i);
 		Browser chrome = new Browser();
 		chrome.setHist(arr);
 		
 		Browser edge = new Browser(arr);
 		
-		System.out.println(chrome.getHist());
-		System.out.println(edge.getHist());
+		
 		arr1=chrome.getHist();
 		arr2=edge.getHist();
 		System.out.println("In chrome object:");
-		for(int i=0;i<5;i++)
+		for(int i=0;i<n;i++)
 		{
 			System.out.println(arr1[i]);
 		}
 		System.out.println("In edge object:");
-		for(int i=0;i<5;i++)
+		for(int i=0;i<n;i++)
 		{
 			System.out.println(arr2[i]);
 		}
