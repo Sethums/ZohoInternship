@@ -1,40 +1,45 @@
 package StringDemo;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Map;
+
 class Browser{
-	HashMap<String,Integer> Hmap = new HashMap<String,Integer>();
 	
-public void VisitedCheck(String url) {
-	
-	 int count=0,i;
+	 String[] list = new String[10];
 
-      if (Hmap.containsKey(url)) 
-      {
- count = Hmap.get(url);
- Hmap.put(url, count+1);
-      }
-      else 
-      {
-        Hmap.put(url, 1);
-      }
-      StringBuilder sb = new StringBuilder();
-      
-      for (Map.Entry<String, Integer> url1: Hmap.entrySet()) {
-      	//int c=0;
-          sb.append(url1.getKey()).append(" ## ").append(url1.getValue()).append(", ");
-         
-    }
-      System.out.println(sb);
-    
-    
+	public void VisitedCheck(String st) 
+	{
+		
+		boolean urlPresentFlag = false;
+		int i = 0;
+		String[] splittedUrl;
+		
+		
+		for(String url : list) {
+			if(url == null)
+				continue;
+
+			splittedUrl = url.split("##");
+			if(splittedUrl[0].equals(st)) {
+				list[i] = st + "##" + (Integer.parseInt(splittedUrl[1]) + 1);
+				urlPresentFlag = true;
+			}
+			i++;
+		}
+	
+		if(!urlPresentFlag)
+			list[i] = st + "##" + 1;
+		
+		
+		for(String url : list) 
+			if(url != null)
+				System.out.println(url);
+	      
+	}
         
         
-    }
+}
 
 
- }
+ 
 
 	
 
@@ -45,7 +50,6 @@ public class StringBrowserHistory {
 Scanner sc=new Scanner(System.in);
 Browser b=new Browser();
 int i;
-//ArrayList<String> arr=new ArrayList<String>();
 String url;
 while(true)
 {
