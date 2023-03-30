@@ -25,9 +25,9 @@ class Browser{
 	        iter.next();
 	        iter.remove();
 	        System.out.println("delete Array Size :" + alist.size());
-	        System.out.println("delete thread: history = " + alist); 
+	       
 	    }
-	    
+	  System.out.println("delete thread: history = " + alist);    
     }
 }
 }
