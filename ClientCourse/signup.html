@@ -1,0 +1,272 @@
+<html>
+
+<head>
+    <title>
+        Social App
+    </title>
+    <style>
+   
+        h1 {
+            color: #b71540;
+            text-align: center;
+        }
+
+        h3 {
+            color: #280256;
+            text-align: center;
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=number],
+        input[type=date]
+        {
+            width: 25%;
+            padding: 12px 5px;
+            border: none;
+            outline: none;
+            border-bottom: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+
+        }
+       
+        button {
+            background-color: #b71540;
+            color: #fff;
+            padding: 5px 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: inline-block;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+      
+      #user-list {
+            border-collapse: collapse;
+        }
+      table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+      th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    
+      th {
+      background-color: #ccc;
+    }
+    
+        
+    </style>
+</head>
+
+<body>
+  
+    <h1>Facebook<img src="fb9.png" width="60"  height="50"></h1>
+    <h3>Sign Up</h3>
+    
+<center>
+    <form id="signup-form" >
+
+        Full Name:&nbsp;&nbsp;&nbsp;&nbsp; 
+        <input type="text" name="fullname" id="fullname" pattern="([^\s][A-Za-z\s]+)" required=""><br><br>
+        Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="email" name="email" id="email" required=""><br><br>
+        Mobile No: &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="number" name="mobile" id="mobile" required="" ><br><br>
+        Date of Birth:&nbsp;&nbsp;
+        <input type="date" name="dob" id="dob" required=""><br><br>
+        Gender:    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="male" name="gender" value="Male">
+         <label for="male">Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="female" name="gender" value="Female">
+         <label for="female">Female</label><br><br>
+        Upload Aadhar:
+        <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
+        <input type="checkbox" id="agree" name="agree" value="agree">
+        <label for="vehicle1"> I agree to terms and conditions</label><br><br><br>
+        <div>
+
+            <button type="submit" value="Submit">Sign Up</button>
+        </div>
+    </form>
+</center>
+
+
+
+<h2>User List</h2>
+  <table id="user-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile No</th>
+        <th>Actions</th>
+       
+      </tr>
+    </thead>
+    <tbody id="user-table-body"></tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('signup-form');
+    let users = [];
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      validateForm();
+    });
+
+    function validateForm() {
+      const nameInput = document.getElementById('fullname');
+      const emailInput = document.getElementById('email');
+      const mobileInput = document.getElementById('mobile');
+      const dateOfBirth=document.getElementById('dob').value;
+      const checkedBox=document.getElementById('agree');
+      const dob = new Date(dateOfBirth); 
+      var isValid = true;
+      var date=new Date();
+      var yearDiff=date.getFullYear()-dob.getFullYear();
+      var monthDiff=date.getMonth()-dob.getMonth();
+
+    if(monthDiff<0 || (monthDiff==0 && date.getDate()<dob.getDate()))
+    {
+      yearDiff--;
+    }
+    if(yearDiff>=18)
+    {
+      isValid=true;
+    }
+    else
+    {
+      alert("Sorry your age is less than 18!!");
+      isValid=false;
+    }
+    if (nameInput.value.trim() === '') 
+    {
+        alert('Name is required.');
+        isValid = false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.value)) {
+        alert('Invalid email format.');
+        isValid = false;
+      }
+
+      const mobileRegex = /^[0-9]{10}$/;
+    if (!mobileRegex.test(mobileInput.value)) {
+        alert( 'Invalid mobile number format. It should be 10 digits.');
+        isValid = false;
+      }
+    if (!checkedBox.checked) {
+    alert('Please agree to terms and conditions!');
+    isValid=false;
+    }
+    if (isValid) {
+        addUser();
+      }
+    }
+    
+    function addUser() {
+      const nameInput = document.getElementById('fullname');
+      const emailInput = document.getElementById('email');
+      const mobileInput = document.getElementById('mobile');
+
+      const user = {
+        name: nameInput.value,
+        email: emailInput.value,
+        mobile: mobileInput.value
+      };
+
+      users.push(user);
+      alert("Welcome to Facebook!!")
+      displayUser();
+      resetForm();
+    }
+
+
+    function displayUser()
+    {
+    const tableBody = document.getElementById('user-table-body');
+    tableBody.innerHTML = '';
+
+    for (let i = 0; i < users.length; i++) {
+    const entry = users[i];
+
+    const row = document.createElement('tr');
+
+    const nameCell = document.createElement('td');
+    nameCell.textContent = entry.name;
+    row.appendChild(nameCell);
+
+    const emailCell = document.createElement('td');
+    emailCell.textContent = entry.email;
+    row.appendChild(emailCell);
+
+    const mobileCell = document.createElement('td');
+    mobileCell.textContent = entry.mobile;
+    row.appendChild(mobileCell);
+
+    const actionsCell = document.createElement('td');
+    
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+
+    editButton.addEventListener('click', () => editEntry(i));
+    actionsCell.appendChild(editButton);
+    
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => deleteEntry(i));
+    actionsCell.appendChild(deleteButton);
+
+    row.appendChild(actionsCell);
+    tableBody.appendChild(row);
+  }
+}
+
+
+function editEntry(index) 
+{
+  const entry = users[index];
+  document.getElementById('fullname').value = entry.name;
+  document.getElementById('email').value = entry.email;
+  document.getElementById('mobile').value = entry.mobile;
+  users.splice(index, 1);
+  displayUser();
+}
+
+
+function deleteEntry(index)
+ {
+  users.splice(index, 1);
+  displayUser();
+}
+
+
+function resetForm()
+ {
+    form.reset();
+}
+  </script>
+</body>
+</html>
+
+
+
+
+
